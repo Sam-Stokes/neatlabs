@@ -1,0 +1,24 @@
+$breakpoints: (
+    // Extra Small Devices
+    'xs': 320px,
+    // Small Devices
+    'sm': 480px,
+    // Medium Devices
+    'md': 768px,
+    // Large Devices
+    'lg': 1024px,
+    // Extra Large Devices
+    'xl': 1440px,
+    // Extra Extra Large Devices
+    'xxl': 1441px
+);
+
+@mixin breakpoint($name) {
+    $size: map-get($breakpoints, $name);
+
+    @if $size {
+        @media (max-width: $size) {
+            @content;
+        }
+    }
+}

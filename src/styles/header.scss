@@ -1,0 +1,10 @@
+@import 'breakpoints';
+
+.headerLogo {
+    position: relative;
+    width: 100%;
+
+    // @include breakpoint(md) {
+    //     width: 50%;
+    // }
+}
