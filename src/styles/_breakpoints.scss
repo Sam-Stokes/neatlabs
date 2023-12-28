@@ -1,24 +1,47 @@
 $breakpoints: (
-    // Extra Small Devices
-    'xs': 320px,
-    // Small Devices
-    'sm': 480px,
-    // Medium Devices
-    'md': 768px,
-    // Large Devices
-    'lg': 1024px,
-    // Extra Large Devices
-    'xl': 1440px,
-    // Extra Extra Large Devices
-    'xxl': 1441px
+    'xs': (
+        max: 319px,
+    ),
+    'sm': (
+        min: 320px,
+        max: 479px,
+    ),
+    'md': (
+        min: 480px,
+        max: 767px,
+    ),
+    'lg': (
+        min: 768px,
+        max: 1023px,
+    ),
+    'xl': (
+        min: 1024px,
+        max: 1439px,
+    ),
+    'xxl': (
+        min: 1440px,
+    ),
 );
 
-@mixin breakpoint($name) {
-    $size: map-get($breakpoints, $name);
+@mixin breakpoint($name, $type) {
+    $values: map-get($breakpoints, $name);
 
-    @if $size {
-        @media (max-width: $size) {
-            @content;
+    @if type-of($values) == 'map' {
+        $min: map-get($values, 'min');
+        $max: map-get($values, 'max');
+
+        @if $type == 'min' and $min {
+            @media (min-width: $min) {
+                @content;
+            }
         }
+
+        @if $type == 'max' and $max {
+            @media (max-width: $max) {
+                @content;
+            }
+        }
+    } @else {
+        @warn "Breakpoint '#{$name}' not found or invalid.";
     }
 }
