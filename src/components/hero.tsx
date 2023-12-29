@@ -1,51 +1,36 @@
 import React, { useEffect, useState } from 'react'
-// import gsap from 'gsap'
+import gsap from 'gsap'
 // import ScrollTrigger from 'gsap'
 
 import '../styles/hero.scss' // Path to your SCSS file
 
 const Hero: React.FC = () => {
-    const [translate, setTranslate] = useState({ x: 0, y: 0 })
+    const [translate] = useState({ x: 0, y: 0 })
 
     useEffect(() => {
-        const oh = document.querySelector('.circle.oh') as HTMLDivElement // Cast to HTMLDivElement
+        const oh = document.querySelector('.circle.oh')
+        if (!oh) return
 
         const handleMouseMove = (event: MouseEvent) => {
-            const domainX: [number, number] = [0, document.body.clientWidth]
-            const domainY: [number, number] = [0, document.body.clientHeight]
-            const range: [number, number] = [-10, 10]
+            const domainX = [0, document.body.clientWidth]
+            const domainY = [0, document.body.clientHeight]
+            const intensity = 40 // Adjust this value as needed
 
-            const translateX = range[0] + ((event.clientX - domainX[0]) * (range[1] - range[0])) / (domainX[1] - domainX[0])
-            const translateY = range[0] + ((event.clientY - domainY[0]) * (range[1] - range[0])) / (domainY[1] - domainY[0])
+            const translateX = ((event.clientX - domainX[0]) / (domainX[1] - domainX[0])) * intensity - 20 // -20 for centering
+            const translateY = ((event.clientY - domainY[0]) / (domainY[1] - domainY[0])) * intensity - 20 // -20 for centering
 
-            setTranslate({ x: translateX, y: translateY })
-
-            if (oh) {
-                oh.style.animation = 'none'
-                oh.style.transform = `translate(${translateX}px, ${translateY}px)`
-            }
-        }
-
-        const handleMouseLeave = () => {
-            if (oh) {
-                oh.style.animation = 'floating 3s linear infinite'
-            }
+            gsap.to(oh, { x: translateX, y: translateY, duration: 0.6 }) // Reduced duration for quicker response
         }
 
         document.addEventListener('mousemove', handleMouseMove)
-        document.addEventListener('mouseleave', handleMouseLeave)
-
         return () => {
             document.removeEventListener('mousemove', handleMouseMove)
-            document.removeEventListener('mouseleave', handleMouseLeave)
         }
     }, [])
 
     return (
         <div className="heroContainer">
             <div className="center">
-                {/* <div className="circle circle--outer" />
-                <div className="circle circle--inner"> */}
                 <div className="circle oh" style={{ transform: `translate(${translate.x}px, ${translate.y}px)` }}>
                     <div className="astronaut">
                         <div className="astronaut-backpack" />
@@ -127,7 +112,6 @@ const Hero: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                {/* </div> */}
             </div>
         </div>
     )
