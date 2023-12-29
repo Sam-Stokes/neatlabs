@@ -7,4 +7,62 @@
         position: absolute;
         width: 100%;
     }
+
+    .navMenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        display: none;
+    }
+
+    .hamburger {
+        position: absolute;
+        width: 60px;
+        height: 40px;
+        top: 20px;
+
+        @include breakpoint('md', 'max') {
+            top: 0;
+        }
+
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .midLine {
+            width: 30px;
+        }
+
+        .botLine {
+            width: 20px;
+        }
+
+        span {
+            display: block;
+            height: 4px;
+
+            @include breakpoint('md', 'max') {
+                height: 2px;
+            }
+
+            background-color: #fff;
+            // transition: all 0.3s ease-in-out; // This makes the bars go back to the right in a nice motion, keep for future transitions
+        }
+
+        @include breakpoint('md', 'max') {
+            width: 40px;
+            height: 20px;
+
+            .midLine {
+                width: 30px;
+            }
+
+            .botLine {
+                width: 20px;
+            }
+        }
+    }
 }
