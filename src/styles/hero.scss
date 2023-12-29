@@ -1,0 +1,352 @@
+@import 'breakpoints';
+
+$random-a: 0;
+$random-b: 0;
+
+@function custom-random($a, $b) {
+    $range: $b - $a + 1;
+    $random: floor(random() * $range + $a);
+    @return $random;
+}
+
+@keyframes blink {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.4);
+        opacity: 0.5;
+    }
+}
+
+@keyframes floating {
+    0%,
+    100% {
+        transform: translate(custom-random(-3, 3) px, custom-random(-3, 3) px) rotate(custom-random(-2, 2) deg);
+    }
+    20% {
+        transform: translate(custom-random(-3, 3) px, custom-random(-3, 3) px) rotate(custom-random(-2, 2) deg);
+    }
+    40% {
+        transform: translate(custom-random(-3, 3) px, custom-random(-3, 3) px) rotate(custom-random(-2, 2) deg);
+    }
+    60% {
+        transform: translate(custom-random(-3, 3) px, custom-random(-3, 3) px) rotate(custom-random(-2, 2) deg);
+    }
+    80% {
+        transform: translate(custom-random(-3, 3) px, custom-random(-3, 3) px) rotate(custom-random(-2, 2) deg);
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+// body {
+//     width: 100vw;
+//     height: 100vh;
+//     overflow: hidden;
+//     font-size: 12px;
+//     background-image: linear-gradient(to right bottom, #a9347e, #4b32a7);
+//     font-family: 'Open Sans', sans-serif;
+//     letter-spacing: 0.2px;
+//     color: white;
+// }
+
+.center {
+    position: relative;
+    top: 400px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.5s;
+    z-index: 1;
+
+    @media screen and (max-height: 600px) {
+        transform: translate(-50%, -50%) scale(0.75);
+    }
+    @media screen and (max-width: 400px) {
+        transform: translate(-50%, -50%) scale(0.6);
+    }
+}
+
+.star {
+    position: absolute;
+    z-index: 1;
+}
+
+@for $i from 1 through 80 {
+    $size: custom-random(1, 4) * 1px;
+
+    .star:nth-child(#{$i}) {
+        top: custom-random(0, 99) vh;
+        left: custom-random(0, 99) vw;
+
+        &:before,
+        &:after {
+            position: absolute;
+            content: '';
+            background-color: white;
+            border-radius: 10px;
+            animation: blink 1.5s infinite;
+            animation-delay: $i * -1s;
+        }
+
+        &:before {
+            top: ($size / 2);
+            left: -($size / 2);
+            width: 3 * $size;
+            height: $size;
+        }
+        &:after {
+            top: -($size / 2);
+            left: ($size / 2);
+            width: $size;
+            height: 3 * $size;
+        }
+    }
+}
+
+.circle {
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.circle--outer {
+    width: 550px;
+    height: 550px;
+    background-image: linear-gradient(to right bottom, #802b89, #5631a1);
+    box-shadow: 0px 0px 20px -8px black;
+}
+
+.circle--inner {
+    width: 355px;
+    height: 355px;
+    background-image: linear-gradient(to right bottom, #75278b, #5530a2);
+    box-shadow: 0px 0px 20px -8px black;
+}
+
+.astronaut {
+    position: absolute;
+    top: -115px;
+    left: -30px;
+    transform: rotate(17deg);
+
+    .astronaut-backpack {
+        width: 100px;
+        height: 100px;
+        background-color: #e3e3e3;
+        border-radius: 10px;
+        z-index: 200;
+    }
+
+    .antena--left {
+        left: 10px;
+    }
+    .antena--right {
+        right: 10px;
+    }
+
+    .astronaut-antena {
+        position: absolute;
+        top: -7px;
+
+        .ear-down {
+            position: absolute;
+            bottom: -5px;
+            width: 15px;
+            height: 20px;
+            border-radius: 5px;
+            background-color: #afafaf;
+            z-index: 1;
+        }
+
+        .ear-up {
+            position: relative;
+            width: 15px;
+            height: 20px;
+            border-radius: 5px;
+            background-color: #c3c3c3;
+            z-index: 2;
+        }
+
+        .antena {
+            position: absolute;
+            top: -29px;
+            width: 2px;
+            height: 30px;
+            border-radius: 5px;
+            background-color: #c3c3c3;
+        }
+
+        .antena-tip {
+            position: absolute;
+            top: -33px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #c3c3c3;
+        }
+    }
+
+    .antena--left .antena {
+        left: 5px;
+    }
+    .antena--right .antena {
+        right: 5px;
+    }
+    .antena--left .antena-tip {
+        left: 3px;
+    }
+    .antena--right .antena-tip {
+        right: 3px;
+    }
+
+    .astronaut-helmet {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background-color: white;
+        box-shadow: 0px 5px 1px -3px gray;
+        transform: translateX(-50%);
+        z-index: 3;
+        overflow: hidden;
+
+        .astronaut-glass {
+            position: absolute;
+            top: 13px;
+            left: 5px;
+            width: 56px;
+            height: 56px;
+            background: #00202e;
+            border-radius: 10px;
+        }
+
+        .glow {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #334d57;
+        }
+
+        .glow--1 {
+            top: 25px;
+            left: 15px;
+            width: 17px;
+            height: 17px;
+        }
+
+        .glow--2 {
+            top: 44px;
+            left: 13px;
+            width: 7px;
+            height: 7px;
+        }
+    }
+
+    .astronaut-body {
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        background-color: #c3c3c3;
+        transform: translateX(-50%);
+    }
+}
+
+.astronaut-wire {
+    position: absolute;
+    top: 98px;
+    left: -167px;
+}
+
+.astronaut-hands {
+    position: absolute;
+    top: 22px;
+    left: -4px;
+    width: 107px;
+    transform: rotate(2deg);
+    z-index: 3;
+
+    .astronaut-hand {
+        position: absolute;
+    }
+
+    .hand--left {
+        left: -3px;
+    }
+    .hand--right {
+        transform: scaleX(-1);
+        right: -3px;
+    }
+}
+
+.oh {
+    transition: all 0.1s linear;
+    animation: floating 4s linear infinite;
+    z-index: 2;
+}
+
+.planet {
+    background-color: #ff4980;
+    box-shadow: inset -6px -10px 0px 1px #cc3b6b, 0px 2px 10px rgba(0, 0, 0, 0.4);
+    width: 155px;
+    height: 155px;
+
+    .craters {
+        .crater {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #c93667;
+        }
+
+        .crater--1 {
+            width: 35px;
+            height: 35px;
+            top: 30px;
+            left: 25px;
+        }
+        .crater--2 {
+            width: 23px;
+            height: 23px;
+            top: 20px;
+            left: 93px;
+        }
+        .crater--3 {
+            width: 17px;
+            height: 17px;
+            top: 77px;
+            left: 17px;
+        }
+        .crater--4 {
+            width: 10px;
+            height: 10px;
+            top: 90px;
+            left: 80px;
+        }
+        .crater--5 {
+            width: 25px;
+            height: 25px;
+            top: 115px;
+            left: 50px;
+        }
+        .crater--6 {
+            width: 13px;
+            height: 13px;
+            top: 118px;
+            left: 105px;
+        }
+    }
+}
+
+.button {
+    position: absolute;
+    // Add your button styles here
+}
